@@ -3,35 +3,30 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import classification_report
 
-# Load the dataset
-data = pd.read_csv('resampled_dataset.csv')
-# data = pd.read_csv('datasetSMOTE.csv')
+def evaluate_naive_bayes(file_path, dataset_name):
+    # Load dataset
+    data = pd.read_csv(file_path)
+    print(f"\n{'='*40}\nNaïve Bayes Evaluation on {dataset_name} Dataset\n{'='*40}")
+    # Convert the target column to categorical and then to numerical codes
+    data['Class'] = data['Class'].astype('category').cat.codes
+    # Separate features and target
+    X = data.drop(columns=['Class'])
+    y = data['Class']
+    # Split into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    # Train the Naïve Bayes classifier
+    nb_classifier = GaussianNB()
+    nb_classifier.fit(X_train, y_train)
+    # Make predictions
+    y_pred = nb_classifier.predict(X_test)
+    # Print classification report
+    report = classification_report(y_test, y_pred, target_names=["normal", "Forwarding"])
+    print(report)
 
-# Optional: Inspect the first few rows and class distribution
-print("Data Sample:")
-print(data.head())
-print("\nOriginal Class Distribution:")
-print(data["Class"].value_counts())
-
-# Convert the target to a categorical type and then to numerical codes
-# This converts 'normal' to 0 and 'Forwarding' to 1 (alphabetical order)
-data['Class'] = data['Class'].astype('category').cat.codes
-
-# Separate features (all columns except 'Class') and target ('Class')
-X = data.drop(columns=['Class'])
-y = data['Class']
-
-# Split data into training and test sets (70% train, 30% test)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# Initialize and train the Naïve Bayes classifier
-nb_classifier = GaussianNB()
-nb_classifier.fit(X_train, y_train)
-
-# Predict on the test set
-y_pred = nb_classifier.predict(X_test)
-
-# Generate and print the classification report
-report = classification_report(y_test, y_pred, target_names=["normal", "Forwarding"])
-print("\nNaïve Bayes Classification Report:")
-print(report)
+# File paths
+original_dataset = 'datasetSMOTE.csv'
+resampled_dataset = 'resampled_dataset.csv'
+# Evaluate on original dataset
+evaluate_naive_bayes(original_dataset, "Original")
+# Evaluate on resampled dataset
+evaluate_naive_bayes(resampled_dataset, "Resampled")
