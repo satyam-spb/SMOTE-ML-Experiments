@@ -1,0 +1,56 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Dataset and large files
+*.csv
+*.tsv
+*.data
+*.arff
+*.zip
+*.gz
+
+# Model files
+*.h5
+*.hdf5
+*.pkl
+*.joblib
+*.sav
+
+# Logs and outputs
+*.log
+*.out
+*.tmp
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# PyCharm
+.idea/
+
+# Environment files
+.env
+.env.*
+
+# Matplotlib/plotly cache
+.matplotlib/
+
+# Reports or results (if generated)
+*.pdf
+*.docx
+results/
+plots/
